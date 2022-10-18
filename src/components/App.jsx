@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Styled, ButtonStyled } from './Feedback/FeedbackStyled';
+import { Styled } from './Feedback/FeedbackStyled';
 import FeedbackStats from './Feedback/FeedbackStats';
-// import Notification from 'Notify'
+import Feedback from './Feedback/Feedback';
+
 class App extends Component {
   state = {
     good: 0,
@@ -14,22 +15,34 @@ class App extends Component {
     stateObj[key] = this.state[key] + 1;
     this.setState(stateObj);
   };
+
+  countTotalFeedback = (good, neutral, bad) => {
+    return good + neutral + bad;
+  };
+  countPositiveTotalPercantage = (total, good) => {
+    return total ? Math.ceil((good * 100) / total) : 0;
+  };
+
   render() {
-    const { good, neutral, bad } = this.state;
+    const good = this.state.good;
+    const neutral = this.state.neutral;
+    const bad = this.state.bad;
     return (
       <Styled>
-        <h2>Please leave feedback</h2>
-        <ButtonStyled data-type="good" onClick={this.changeState}>
-          Good
-        </ButtonStyled>
-        <ButtonStyled data-type="neutral" onClick={this.changeState}>
-          Neural
-        </ButtonStyled>
-        <ButtonStyled data-type="bad" onClick={this.changeState}>
-          Bad
-        </ButtonStyled>
-        <FeedbackStats good={good} neutral={neutral} bad={bad}></FeedbackStats>
-        {/* {!good ? <Notification message="No feedback given" /> : ''} */}
+        <Feedback
+          options={Object.keys(this.state)}
+          changeState={this.changeState}
+        ></Feedback>
+        <FeedbackStats
+          good={good}
+          neutral={neutral}
+          bad={bad}
+          total={this.countTotalFeedback(good, neutral, bad)}
+          goodPercentage={this.countPositiveTotalPercantage(
+            this.countTotalFeedback(good, neutral, bad),
+            good
+          )}
+        ></FeedbackStats>
       </Styled>
     );
   }

@@ -8,6 +8,10 @@ export const Styled = styled.div`
   border-radius: 4px 4px 12px 12px;
   width: 320px;
 `;
+export const StyledOptions = styled.div`
+  margin: 15px 0;
+`;
+
 export const ButtonStyled = styled.button`
   font-size: 15px;
   padding: 8px;
@@ -23,7 +27,4 @@ export const ButtonStyled = styled.button`
   :focus {
     background-color: grey;
   }
-`;
-export const StyledStats = styled.div`
-  margin-top: 20px;
 `;
